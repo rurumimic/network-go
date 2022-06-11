@@ -8,7 +8,7 @@ import (
 )
 
 func TestListener(t *testing.T) {
-	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	listener, err := net.Listen("tcp4", "127.0.0.1:0")
 	// listener, err := net.Listen("tcp", ":")
 	// listener, err := net.Listen("tcp", "192.168.101.101:8888")
 
