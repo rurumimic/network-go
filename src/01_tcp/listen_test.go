@@ -1,6 +1,6 @@
 // go test listen_test.go -v
 
-package main
+package tcp
 
 import (
 	"net"

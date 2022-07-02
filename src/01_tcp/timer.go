@@ -1,6 +1,6 @@
 // go run timer.go
 
-package main
+package tcp
 
 import (
 	"fmt"

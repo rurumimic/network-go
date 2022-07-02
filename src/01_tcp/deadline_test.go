@@ -1,5 +1,5 @@
 // go test -v deadline_test.go
-package main
+package tcp
 
 import (
 	"io"

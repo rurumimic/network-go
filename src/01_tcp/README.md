@@ -4,10 +4,14 @@ _back to [/README.md](/README.md)_
 
 ---
 
-- net
-  - net.Listen
-- time
-  - time.NewTimer
+- [net](https://pkg.go.dev/net)
+  - net.[Listen](https://pkg.go.dev/net#Listen)
+  - net.[OpError](https://pkg.go.dev/net#OpError)
+  - net.[DialContext](https://pkg.go.dev/net#Dialer.DialContext)
+  - net.[DialTimeout](https://pkg.go.dev/net#DialTimeout)
+  - net.[Conn](https://pkg.go.dev/net#Conn)
+- [time](https://pkg.go.dev/time)
+  - time.[NewTimer](https://pkg.go.dev/time#NewTimer)
 - Ping
 
 ---
