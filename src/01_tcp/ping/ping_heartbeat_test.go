@@ -1,4 +1,5 @@
 // go test -v ping.go ping_heartbeat_test.go
+
 package ping
 
 import (
@@ -45,7 +46,9 @@ func TestHeartbeatPinger(t *testing.T) {
 
 		buf := make([]byte, 1024)
 		for {
+			t.Logf("SERVER: blocking ...")
 			n, err := conn.Read(buf)
+			t.Logf("SERVER: ... read (%d bytes)", n)
 			if err != nil {
 				// t.Error(err)
 				t.Logf("Error: %v", err)
@@ -106,19 +109,23 @@ func TestHeartbeatPinger(t *testing.T) {
 /*
 
 === RUN   TestHeartbeatPinger
-    ping_heartbeat_test.go:78: CLIENT: [1s] ping
-    ping_heartbeat_test.go:78: CLIENT: [2s] ping
-    ping_heartbeat_test.go:78: CLIENT: [3s] ping
-    ping_heartbeat_test.go:78: CLIENT: [4s] ping
-    ping_heartbeat_test.go:54: SERVER: [4s] PONG!!!
-    ping_heartbeat_test.go:93: CLIENT: [5s] ping
-    ping_heartbeat_test.go:93: CLIENT: [6s] ping
-    ping_heartbeat_test.go:93: CLIENT: [7s] ping
-    ping_heartbeat_test.go:93: CLIENT: [8s] ping
-    ping_heartbeat_test.go:51: Error: read tcp 127.0.0.1:51482->127.0.0.1:51483: i/o timeout
-    ping_heartbeat_test.go:99: CLIENT: [9s] done
+    ping_heartbeat_test.go:49: SERVER: blocking ...
+    ping_heartbeat_test.go:81: CLIENT: [1s] ping
+    ping_heartbeat_test.go:81: CLIENT: [2s] ping
+    ping_heartbeat_test.go:81: CLIENT: [3s] ping
+    ping_heartbeat_test.go:81: CLIENT: [4s] ping
+    ping_heartbeat_test.go:51: SERVER: ... read (7 bytes)
+    ping_heartbeat_test.go:57: SERVER: [4s] PONG!!!
+    ping_heartbeat_test.go:49: SERVER: blocking ...
+    ping_heartbeat_test.go:96: CLIENT: [5s] ping
+    ping_heartbeat_test.go:96: CLIENT: [6s] ping
+    ping_heartbeat_test.go:96: CLIENT: [7s] ping
+    ping_heartbeat_test.go:96: CLIENT: [8s] ping
+    ping_heartbeat_test.go:51: SERVER: ... read (0 bytes)
+    ping_heartbeat_test.go:54: Error: read tcp 127.0.0.1:52556->127.0.0.1:52557: i/o timeout
+    ping_heartbeat_test.go:102: CLIENT: [9s] done
 --- PASS: TestHeartbeatPinger (9.01s)
 PASS
-ok  	command-line-arguments	9.267s
+ok  	command-line-arguments	9.276s
 
 */

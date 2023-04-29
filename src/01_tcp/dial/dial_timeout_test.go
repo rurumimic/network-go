@@ -1,4 +1,5 @@
 // go test -v -run TestDialTimeout
+
 package dial
 
 import (

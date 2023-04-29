@@ -1,4 +1,5 @@
 // go test -v dial_cancel_test.go
+
 package dial
 
 import (
@@ -15,6 +16,7 @@ func TestDialContextCancel(t *testing.T) {
 
 	// or not cancel
 	// ctx, _ := context.WithCancel(context.Background())
+
 	sync := make(chan struct{})
 
 	go func() {
@@ -24,7 +26,9 @@ func TestDialContextCancel(t *testing.T) {
 
 		var d net.Dialer // DialContext is Dialer's method
 		d.Control = func(_, _ string, _ syscall.RawConn) error {
+			t.Log("Wait ...")
 			time.Sleep(time.Second)
+			t.Log("... 1 Second")
 			return nil
 		}
 
@@ -48,19 +52,25 @@ func TestDialContextCancel(t *testing.T) {
 
 /*
 
+with Cancel:
+
 === RUN   TestDialContextCancel
-    dial_cancel_test.go:29: dial tcp 142.250.207.36:443: operation was canceled
+    dial_cancel_test.go:37: dial tcp 142.250.207.36:443: operation was canceled
 --- PASS: TestDialContextCancel (0.00s)
 PASS
-ok  	command-line-arguments	0.363s
+ok  	command-line-arguments	0.274s
 
+
+without Cancel:
 
 === RUN   TestDialContextCancel
-    dial_cancel_test.go:37: Connection did not time out
-    dial_cancel_test.go:44: Expected canceled context; actual: <nil>
---- FAIL: TestDialContextCancel (0.04s)
+    dial_cancel_test.go:29: Wait ...
+    dial_cancel_test.go:31: ... 1 Second
+    dial_cancel_test.go:42: Connection did not time out
+    dial_cancel_test.go:49: Expected canceled context; actual: <nil>
+--- FAIL: TestDialContextCancel (1.03s)
 FAIL
-FAIL	command-line-arguments	0.408s
+FAIL	command-line-arguments	1.307s
 FAIL
 
 */

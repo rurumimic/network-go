@@ -1,3 +1,3 @@
 module send_data
 
-go 1.18
+go 1.20

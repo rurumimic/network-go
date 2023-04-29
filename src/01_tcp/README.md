@@ -40,7 +40,6 @@ func Listen(network, address string) (Listener, error)
     - `Addr() Addr`
   - [type error](https://pkg.go.dev/builtin#error)
 
-
 #### examples
 
 ##### Listen
@@ -64,7 +63,6 @@ go test listen_test.go -v
 3. Dial to `127.0.0.1:56758` and Close
 4. Receive `EOF`
 5. Close `Listener`
-
 
 ### net.OpError
 

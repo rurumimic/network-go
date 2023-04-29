@@ -17,13 +17,13 @@ func TestDialContext(t *testing.T) {
 
 	var d net.Dialer // DialContext is Dialer's method
 	d.Control = func(_, _ string, _ syscall.RawConn) error {
-		// timeout:
-		time.Sleep(1*time.Second + time.Millisecond)
+		// no timeout
+		time.Sleep(time.Millisecond)
 
 		// or
 
-		// no timeout
-		// time.Sleep(time.Millisecond)
+		// timeout:
+		time.Sleep(1*time.Second + time.Millisecond)
 		return nil
 	}
 
@@ -38,7 +38,7 @@ func TestDialContext(t *testing.T) {
 		t.Error(err)
 	} else {
 		if nErr.Timeout() {
-			t.Logf("Connection did time out: %v", err)
+			t.Logf("Connection did time out: %v", err) // success
 		}
 		if !nErr.Timeout() {
 			t.Errorf("Error is not a timeout: %v", err)
