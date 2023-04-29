@@ -6,11 +6,14 @@ _back to [/README.md](/README.md)_
 
 - [net](https://pkg.go.dev/net)
   - net.[Conn](https://pkg.go.dev/net#Conn)
+  - net.[TCPConn](https://pkg.go.dev/net#TCPConn)
 - [io](https://pkg.go.dev/io)
   - io.[Reader](https://pkg.go.dev/io#Reader)
   - io.[Writer](https://pkg.go.dev/io#Writer)
   - io.[ReadWriteCloser](https://pkg.go.dev/io#ReadWriteCloser)
   - io.[Copy](https://pkg.go.dev/io#Copy)
+  - io.[TeeReader](https://pkg.go.dev/io#TeeReader)
+  - io.[MultiWriter](https://pkg.go.dev/io#MultiWriter)
 - [bufio](https://pkg.go.dev/bufio)
   - bufio.[Scanner](https://pkg.go.dev/bufio#Scanner)
 - iota
@@ -165,6 +168,21 @@ t.Logf("[%T] %[1]q", actual)
 
 ## Error Handling
 
+- [ping.go](ping/ping.go)
+
+```bash
+nc -kl 127.0.0.1 8888
+```
+
+```bash
+go run ping.go -c 10 127.0.0.1:8888
+
+PING 127.0.0.1:8888
+1 414.179µs
+2 561.307µs
+3 621.029µs
+```
+
 ```go
 var (
   err error
@@ -219,3 +237,27 @@ proxy(from, to)
 
 - `net.Conn` ⟷ `io.Reader`
 - `net.Conn` ⟷ `io.Writer`
+
+---
+
+## Monitor
+
+### io.TeeReader, io.MultiWriter
+
+#### examples
+
+- [monitor_test.go](monitor_test.go)
+
+---
+
+## TCPConn
+
+### net.TCPConn
+
+#### examples
+
+- [tcp_conn_test.go](tcp_conn_test.go)
+
+```go
+tcpConn, ok := conn.(*net.TCPConn)
+```
