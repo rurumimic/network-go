@@ -12,8 +12,8 @@ import (
 
 func TestPayloads(t *testing.T) {
 	b1 := Binary("Clear is better than clever.")
-	b2 := Binary("Don't panic.")
 	s1 := String("Errors are values.")
+	b2 := Binary("Don't panic.")
 	payloads := []Payload{&b1, &s1, &b2}
 
 	listener, err := net.Listen("tcp", "127.0.0.1:")
@@ -86,6 +86,8 @@ func TestMaxPayloadSize(t *testing.T) {
     types_test.go:58: [*send_data.String] "Errors are values."
     types_test.go:58: [*send_data.Binary] "Don't panic."
 --- PASS: TestPayloads (0.00s)
+
+
 === RUN   TestMaxPayloadSize
 --- PASS: TestMaxPayloadSize (0.00s)
 PASS

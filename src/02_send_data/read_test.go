@@ -1,4 +1,4 @@
-// go test read_test.go -v
+// go test -v read_test.go
 
 package send_data
 
