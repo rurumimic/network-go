@@ -261,3 +261,73 @@ proxy(from, to)
 ```go
 tcpConn, ok := conn.(*net.TCPConn)
 ```
+
+##### KeepAlive
+
+```go
+err := tcpConn.SetKeepAlive(true)
+err := tcpConn.SetKeepAlivePeriod(time.Minute)
+```
+
+##### Linger
+
+```go
+err := tcpConn.SetLinger(-1) // -1: no timeout, 0: close immediately, >0: timeout
+```
+
+##### Buffer
+
+```go
+if err := tcpConn.SetReadBuffer(212992); err != nil {
+  return err
+}
+
+if err := tcpConn.SetWriteBuffer(212992); err != nil {
+  return err
+}
+```
+
+##### Zero Window Error
+
+```go
+buf := make([]byte, 1024)
+
+for {
+  n, err := conn.Read(buf) // 1. recieve buffer is empty
+  if err != nil {
+    return err
+  }
+
+  handle(buf[:n]) // 2. blocking...
+  // 3. recieve buffer is full
+}
+```
+
+##### CLOSE_WAIT
+
+When a TCP socket is CLOSE_WAIT state and client send data other than FIN packet,  
+server send RST and the connection is closed.
+
+```go
+for {
+  conn, err := listener.Accept()
+  if err != nil {
+    return err
+  }
+
+  go func(c net.Conn) {
+    // must
+    // c.Close()
+    buf := make([]byte, 1024)
+
+    for {
+      n, err := c.Read(buf)
+      if err != nil {
+        return // c.Close() not called -> CLOSE_WAIT
+      }
+
+      handle(buf[:n])
+    }
+  }(conn)
+}
+```
