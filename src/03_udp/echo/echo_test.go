@@ -22,6 +22,7 @@ func TestEchoServerUDP(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer func() {
+		t.Log("Client: Close")
 		_ = client.Close()
 	}()
 
@@ -45,22 +46,41 @@ func TestEchoServerUDP(t *testing.T) {
 		t.Fatalf("expected %q, got %q", msg, buf[:n])
 	}
 
+	t.Logf("expected %q, got %q", msg, buf[:n])
+
+	t.Log("Client: End")
+
 }
 
 /*
 
 === RUN   TestEchoServerUDP
+Read Buffer: Wait...
+Write Buffer: Wait...
+Context: Wait...
+Read Buffer: Wait...
+    echo_test.go:49: expected "ping", got "ping"
+    echo_test.go:51: Client: End
+    echo_test.go:25: Client: Close
 --- PASS: TestEchoServerUDP (0.00s)
 PASS
-ok  	command-line-arguments	0.353s
+Context: Done
+ok  	command-line-arguments	0.377s
 
 when wrong:
 
 === RUN   TestEchoServerUDP
-    echo_test.go:45: expected "ping", got "cake"
+Read Buffer: Wait...
+Write Buffer: Wait...
+Context: Wait...
+Read Buffer: Wait...
+    echo_test.go:46: expected "ping", got "cake"
+    echo_test.go:25: Client: Close
+Context: Done
 --- FAIL: TestEchoServerUDP (0.00s)
 FAIL
-FAIL	command-line-arguments	0.366s
+End Read Buffer
+FAIL	command-line-arguments	0.271s
 FAIL
 
 */
