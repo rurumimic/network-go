@@ -20,6 +20,7 @@
 3. [UDP](src/03_udp/README.md)
 4. [TFTP](src/04_tftp/README.md)
 5. [Unix Domain Socket](src/05_socket/README.md)
+6. [HTTP Client](src/06_http_client/README.md)
 
 ## Install Go
 
