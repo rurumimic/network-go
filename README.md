@@ -21,6 +21,7 @@
 4. [TFTP](src/04_tftp/README.md)
 5. [Unix Domain Socket](src/05_socket/README.md)
 6. [HTTP Client](src/06_http_client/README.md)
+7. [HTTP Server](src/07_http_server/README.md)
 
 ## Install Go
 
