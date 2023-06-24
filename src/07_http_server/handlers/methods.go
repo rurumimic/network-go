@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+	"html"
 	"io"
 	"net/http"
 	"sort"
@@ -41,4 +43,24 @@ func (h Methods) AllowedMethods() string {
 	sort.Strings(a)
 
 	return strings.Join(a, ", ")
+}
+
+func DefaultMethodsHandler() http.Handler {
+	return Methods{
+		http.MethodGet: http.HandlerFunc(
+			func(w http.ResponseWriter, r *http.Request) {
+				_, _ = w.Write([]byte("Hello, friend!"))
+			},
+		),
+		http.MethodPost: http.HandlerFunc(
+			func(w http.ResponseWriter, r *http.Request) {
+				b, err := io.ReadAll(r.Body)
+				if err != nil {
+					http.Error(w, "Internal server error", http.StatusInternalServerError)
+					return
+				}
+				_, _ = fmt.Fprintf(w, "Hello, %s!", html.EscapeString(string(b)))
+			},
+		),
+	}
 }

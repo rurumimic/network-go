@@ -1,26 +1,27 @@
 // go get github.com/awoodbeck/gnp/ch09/handlers
-// go test -v server_test.go
+// go test -v tls_test.go
 
 package server
 
 import (
 	"bytes"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"io"
 	"net"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 
-	// "github.com/awoodbeck/gnp/ch09/handlers"
-	"http_server/handlers"
+	"github.com/awoodbeck/gnp/ch09/handlers"
 )
 
-func TestSimpleHTTPServer(t *testing.T) {
+func TestSimpleHTTPSServer(t *testing.T) {
 	srv := &http.Server{
-		Addr: ":8081",
-		// Handler:     http.TimeoutHandler(handlers.DefaultHandler(), 2*time.Minute, ""),
-		Handler:     http.TimeoutHandler(handlers.DefaultMethodsHandler(), 2*time.Minute, ""),
+		Addr:        "127.0.0.1:8443",
+		Handler:     http.TimeoutHandler(handlers.DefaultHandler(), 2*time.Minute, ""),
 		IdleTimeout: 5 * time.Minute,
 		ReadTimeout: 1 * time.Minute,
 	}
@@ -31,7 +32,7 @@ func TestSimpleHTTPServer(t *testing.T) {
 	}
 
 	go func() {
-		err := srv.Serve(l)
+		err := srv.ServeTLS(l, "./certs/cert.pem", "./certs/key.pem")
 		if err != http.ErrServerClosed {
 			t.Error(err)
 		}
@@ -48,8 +49,23 @@ func TestSimpleHTTPServer(t *testing.T) {
 		{http.MethodHead, nil, http.StatusMethodNotAllowed, ""},
 	}
 
+	certPEM, err := os.ReadFile("./certs/cert.pem")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rootCAs, _ := x509.SystemCertPool()
+	if ok := rootCAs.AppendCertsFromPEM(certPEM); !ok {
+		t.Fatal(err)
+	}
+	config := &tls.Config{
+		InsecureSkipVerify: false,
+		RootCAs:            rootCAs,
+	}
+	tr := &http.Transport{TLSClientConfig: config}
 	client := new(http.Client)
-	path := fmt.Sprintf("http://%s/", srv.Addr)
+	client.Transport = tr
+	path := fmt.Sprintf("https://%s/", srv.Addr)
 
 	for i, c := range testCases {
 		r, err := http.NewRequest(c.method, path, c.body)
@@ -90,11 +106,11 @@ func TestSimpleHTTPServer(t *testing.T) {
 
 /*
 
-=== RUN   TestSimpleHTTPServer
-    server_test.go:79: 0: 200 OK - Hello, friend!
-    server_test.go:79: 1: 200 OK - Hello, &lt;world&gt;!
-    server_test.go:79: 2: 405 Method Not Allowed -
---- PASS: TestSimpleHTTPServer (0.00s)
+=== RUN   TestSimpleHTTPSServer
+    tls_test.go:97: 0: 200 OK - Hello, friend!
+    tls_test.go:97: 1: 200 OK - Hello, &lt;world&gt;!
+    tls_test.go:97: 2: 405 Method Not Allowed -
+--- PASS: TestSimpleHTTPSServer (0.06s)
 PASS
 
 */
