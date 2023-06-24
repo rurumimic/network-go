@@ -22,6 +22,7 @@
 5. [Unix Domain Socket](src/05_socket/README.md)
 6. [HTTP Client](src/06_http_client/README.md)
 7. [HTTP Server](src/07_http_server/README.md)
+8. [Caddy](src/08_caddy/README.md)
 
 ## Install Go
 
