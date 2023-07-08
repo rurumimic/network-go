@@ -24,6 +24,7 @@
 7. [HTTP Server](src/07_http_server/README.md)
 8. [Caddy](src/08_caddy/README.md)
 9. [TLS](src/09_tls/README.md)
+10. [Data Serialization](src/10_serialization/README.md)
 
 ## Install Go
 
