@@ -1,0 +1,38 @@
+{
+  "apps": {
+    "http": {
+      "servers": {
+        "hello": {
+          "listen": [
+            "localhost:2020-2025"
+          ],
+          "routes": [
+            {
+              "handle": [
+                {
+                  "handler": "static_response",
+                  "body": "Hello, World!"
+                }
+              ]
+            }
+          ]
+        },
+        "test": {
+          "listen": [
+            "localhost:2030"
+          ],
+          "routes": [
+            {
+              "handle": [
+                {
+                  "handler": "static_response",
+                  "body": "Welcome to my temporary test server."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
